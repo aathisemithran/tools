@@ -41,7 +41,7 @@
 			else{
 				expectedUnits = totalUnits*60/daysTaken;
 			}
-			var outputText = totalUnits + " units consumed as of today. You are expected to consume " + Math.ceil(expectedUnits) +  " units in this cycle.<br><br>Expected Bill: <b>Rs. "+ getBill(expectedUnits);
+			var outputText = totalUnits + " units consumed as of today. You are expected to consume " + Math.ceil(expectedUnits) +  " units in this cycle.<br><br><br>Expected Bill:- <h2>Rs. "+ getBill(expectedUnits);
 		
 			document.getElementById("output").innerHTML = outputText;
 		}
@@ -67,10 +67,10 @@
 			fixed = 50;
 		}
 		bill = bill + fixed - subsidy;
+		if(bill < 0){
+			bill = 0;
+		}
 		return Math.ceil(bill);
 	}
 </script>
 </html>
-
-
-
