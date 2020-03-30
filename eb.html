@@ -1,0 +1,76 @@
+<html>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<body>
+
+	<input type="radio" id="category_house" name="category" value="House" checked="checked">
+	<label for="category_house">House</label>&nbsp;&nbsp;
+	<input type="radio" id="category_company" name="category" value="Company">
+	<label for="category_company">Company</label>
+	<br><br>
+
+
+	Old Bill Date - <input type="date" id="old_bill_date">
+	<br><br>
+	Old Bill Unit (last 4 nos) - <input type="number" id="old_unit" >
+	<br><br>
+	Today's Unit (last 4 nos) - <input type="number" id="new_unit" >
+	<br><br>
+	<input type="button" value="Submit" id="submit">
+	<br><br><br>
+	<div id="output">
+	</div>
+
+</body>
+<script>
+	document.getElementById("submit").onclick = function(){
+		document.getElementById("output").innerHTML = "";
+		if(document.getElementById("category_house").checked == true){
+			var oldUnit = document.getElementById("old_unit").value;
+			var newUnit = document.getElementById("new_unit").value;
+			var totalUnits = newUnit - oldUnit;
+			if(totalUnits <= 0){
+				totalUnits += 10000;
+			}
+			var oldDate = new Date(document.getElementById("old_bill_date").value);
+			var daysTaken = (Date.now() - oldDate)/(1000*60*60*24);
+			daysTaken = Math.floor(daysTaken);
+			var expectedUnits;
+			if(daysTaken >= 60){
+				expectedUnits = totalUnits;
+			}
+			else{
+				expectedUnits = totalUnits*60/daysTaken;
+			}
+			var outputText = totalUnits + " units consumed as of today. You are expected to consume " + Math.ceil(expectedUnits) +  " units in this cycle.<br><br>Expected Bill: <b>Rs. "+ getBill(expectedUnits);
+		
+			document.getElementById("output").innerHTML = outputText;
+		}
+	}
+	function getBill(units){
+		var fixed = 0;
+		var subsidy = 150;
+		var bill = 0;	
+		if(units <= 100){
+			bill = units * 1.5;
+			fixed = 0;
+		}
+		else if(units <= 200){
+			bill = units * 1.5;
+			fixed = 20;
+		}
+		else if(units <= 500){
+			bill = 100*1.5 + 100*2 + (units-200)*3;
+			fixed = 30; 
+		}
+		else{
+			bill = 100*1.5 + 100*3.5 + 300*4.6 + (units-500)*6.6;
+			fixed = 50;
+		}
+		bill = bill + fixed - subsidy;
+		return Math.ceil(bill);
+	}
+</script>
+</html>
+
+
+
